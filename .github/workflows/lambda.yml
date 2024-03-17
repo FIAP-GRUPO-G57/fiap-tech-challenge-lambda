@@ -1,14 +1,14 @@
-name: Build and Deploy to AWS
+name: Build Lambda
 
 env:
   AWS_REGION: us-east-1  # Use your actual region
   AWS_LAMBDA_FUNCTION_NAME: my_function  # Use your actual function name
 
 on:
-  workflow_run:
-    workflows: ["Terraform Lambda"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+
 
 jobs:
   build-and-deploy:

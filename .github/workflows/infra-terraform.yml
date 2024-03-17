@@ -1,12 +1,32 @@
 name: 'Terraform Lambda'
+
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Build Lambda"]
+    types:
+      - completed
+
+env:
+  FUNCTION_NAME: my_function
+  AWS_REGION: us-east-1
 
 
 jobs:
+  check_function:
+    runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.check.outputs.exists }}
+
+    steps:
+    - name: Check if function exists
+      id: check
+      run: |
+        exists=$(aws lambda get-function --function-name $FUNCTION_NAME --region $AWS_REGION > /dev/null 2>&1 && echo "yes" || echo "no")
+        echo "::set-output name=exists::$exists"
+
   terraform:
+    needs: check_function
+    if: ${{ needs.check_function.outputs.exists == 'no' }}
     name: 'Terraform'
     runs-on: ubuntu-latest
     defaults:
@@ -40,3 +60,16 @@ jobs:
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
+
+  deploy:
+    needs: check_function
+    if: ${{ needs.check_function.outputs.exists == 'yes' }}
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+
+    
+    steps:
+
+    - name: Deploy to AWS Lambda
+      run: |
+        aws lambda update-function-code --function-name my_function --zip-file fileb://target/function-bin.zip
