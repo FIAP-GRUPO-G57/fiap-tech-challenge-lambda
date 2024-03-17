@@ -24,7 +24,7 @@ resource "aws_iam_role" "lambda_execution_role" {
 resource "aws_lambda_function" "my_function" {
   function_name = "my_function"
   handler       = "com.example.CPFVerificationLambda"  
-  role          = aws_iam_role.lambda_execution_role.arn
+  role          = aws_iam_role.lambda_execution_role[0].arn
   runtime       = "java21"
 
   filename = "function-bin.zip"
@@ -85,7 +85,7 @@ resource "aws_lambda_permission" "permission" {
 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "LambdaDynamoDBCognitoAccess"
-  role = aws_iam_role.lambda_execution_role.id
+  role = aws_iam_role.lambda_execution_role[0].id
 
   policy = jsonencode({
     Version = "2012-10-17"
