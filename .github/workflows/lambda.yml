@@ -11,7 +11,7 @@ on:
 
 
 jobs:
-  build-and-deploy:
+  build-lambda:
     runs-on: ubuntu-latest
 
     steps:

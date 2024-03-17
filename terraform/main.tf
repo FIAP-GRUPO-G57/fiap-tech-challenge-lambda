@@ -1,4 +1,10 @@
+data "aws_iam_role" "existing" {
+  name = "lambda_execution_role"
+}
+
+
 resource "aws_iam_role" "lambda_execution_role" {
+  count = data.aws_iam_role.existing.id != null ? 0 : 1
   name = "lambda_execution_role"
 
   assume_role_policy = jsonencode({
