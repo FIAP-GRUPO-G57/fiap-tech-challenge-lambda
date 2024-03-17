@@ -2,12 +2,13 @@ name: Build and Deploy to AWS
 
 env:
   AWS_REGION: us-east-1  # Use your actual region
-  AWS_LAMBDA_FUNCTION_NAME: my-function  # Use your actual function name
+  AWS_LAMBDA_FUNCTION_NAME: my_function  # Use your actual function name
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Terraform Lambda"]
+    types:
+      - completed
 
 jobs:
   build-and-deploy:
@@ -46,4 +47,4 @@ jobs:
 
     - name: Deploy to AWS Lambda
       run: |
-        aws lambda update-function-code --function-name my-function --zip-file fileb://target/function-bin.zip
+        aws lambda update-function-code --function-name my_function --zip-file fileb://target/function-bin.zip
