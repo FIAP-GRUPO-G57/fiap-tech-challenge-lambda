@@ -1,0 +1,36 @@
+name: Build and Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up GraalVM
+      uses: DeLaGuardo/setup-graalvm@4.0
+      with:
+        graalvm-version: 21.1.0.java11
+
+    - name: Install native-image
+      run: gu install native-image
+
+    - name: Build native image
+      run: mvn package -Pnative
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Deploy to AWS Lambda
+      run: |
+        aws lambda update-function-code --function-name my-function --zip-file fileb://target/function.zip
