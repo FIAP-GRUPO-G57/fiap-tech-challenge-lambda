@@ -135,6 +135,28 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version> <!-- Use the latest version -->
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>bin</descriptorRef> <!-- Use predefined bin descriptor -->
+          </descriptorRefs>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+          </archive>
+          <finalName>function</finalName> <!-- Custom name for the zip -->
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- This is used for binding the goal to a phase -->
+            <phase>package</phase> <!-- Bind to the packaging phase -->
+            <goals>
+              <goal>single</goal> <!-- Create a single distribution -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>${surefire-plugin.version}</version>
         <executions>
