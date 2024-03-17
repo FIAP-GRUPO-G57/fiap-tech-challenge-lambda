@@ -1,5 +1,9 @@
 name: Build and Deploy to AWS
 
+env:
+  AWS_REGION: us-east-1  # Use your actual region
+  AWS_LAMBDA_FUNCTION_NAME: my-function  # Use your actual function name
+
 on:
   push:
     branches:
