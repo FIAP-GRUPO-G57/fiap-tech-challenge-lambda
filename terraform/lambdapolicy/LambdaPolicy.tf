@@ -1,6 +1,7 @@
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "LambdaDynamoDBCognitoAccess"
-  role = aws_iam_role.lambda_execution_role.id
+  role = "lambda_execution_role"
+
 
   policy = jsonencode({
     Version = "2012-10-17"

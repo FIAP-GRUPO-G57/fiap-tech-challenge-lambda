@@ -18,10 +18,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up JDK 21
+    - name: Set up JDK 17
       uses: actions/setup-java@v2
       with:
-        java-version: '21'
+        java-version: '17'
         distribution: 'adopt'
 
 
@@ -43,6 +43,9 @@ jobs:
     - name: Build  image
       run: mvn clean install
 
+    - name: Deploy to AWS Lambda
+      run: |
+        aws lambda update-function-code --function-name my_function --zip-file fileb://target/function-bin.zip
 
 
    

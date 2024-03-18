@@ -41,3 +41,14 @@ nb-configuration.xml
 
 # Plugin directory
 /.quarkus/cli/plugins/
+
+
+#Terraform
+*.tfstate
+*.tfstate.backup
+*.tfstate.backup.*
+*.tfvars
+*.tfplan
+*.terraform
+terraform.tfstate
+terraform.tfstate.backup
