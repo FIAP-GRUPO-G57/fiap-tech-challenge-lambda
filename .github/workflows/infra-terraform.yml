@@ -18,6 +18,14 @@ jobs:
       exists: ${{ steps.check.outputs.exists }}
 
     steps:
+
+    - name: 'Configure AWS Credentials'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'us-east-1'  # Substitua pela região desejada
+
     - name: Check if function exists
       id: check
       run: |
@@ -29,32 +37,50 @@ jobs:
     needs: check_function
     if: ${{ needs.check_function.outputs.exists == 'no' }}
     runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.check_execution_role.outputs.exists }}
     steps:
+
+
+    - name: 'Configure AWS Credentials'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'us-east-1'  # Substitua pela região desejada
+
     - name: Check if execution role exists
       run: |
         exists=$(aws iam get-role --role-name lambda_execution_role --region $AWS_REGION > /dev/null 2>&1 && echo "yes" || echo "no")
         echo "::set-output name=exists::$exists"
+        echo "Role exists: $exists"
 
 
   check_lambda_policy:
     needs: check_function
     if: ${{ needs.check_function.outputs.exists == 'no' }}
     runs-on: ubuntu-latest
+
+    outputs:
+      exists: ${{ steps.check_lambda_policy.outputs.exists }}
+
     steps:
+
+
+    - name: 'Configure AWS Credentials'
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: 'us-east-1'  # Substitua pela região desejada
+
+
     - name: Check if lambda policy exists
       run: |
         exists=$(aws iam get-policy --policy-name lambda_policy --region $AWS_REGION > /dev/null 2>&1 && echo "yes" || echo "no")
         echo "::set-output name=exists::$exists"
+        echo "Policy exists: $exists"
 
-  check_api_gateway:
-    needs: check_function
-    if: ${{ needs.check_function.outputs.exists == 'no' }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check if API Gateway exists
-      run: |
-        exists=$(aws apigateway get-rest-apis --region $AWS_REGION > /dev/null 2>&1 && echo "yes" || echo "no")
-        echo "::set-output name=exists::$exists"
 
   ExecutionRole:
     needs: check_function
