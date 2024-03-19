@@ -26,7 +26,4 @@ resource "aws_iam_role_policy" "lambda_policy" {
         ]
         Effect = "Allow"
         Resource = "arn:aws:cognito-idp:*:*:userpool/us-east-1_Ny9FfbR8y"
-      }
-    ]
-  })
-}
+  
