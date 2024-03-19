@@ -41,14 +41,11 @@ jobs:
 
 
     - name: Build  image
-      run: mvn clean package -Pnative -Dquarkus.native.container-build=true
-
-    - name: Zip the application
-      run: zip -j function.zip target/bootstrap target/verify-cpf-1.0.0-SNAPSHOT-runner
+      run: mvn clean install
 
     - name: Deploy to AWS Lambda
       run: |
-        aws lambda update-function-code --function-name my_function --zip-file fileb://target/function.zip
+        aws lambda update-function-code --function-name my_function --zip-file fileb://target/verify-cpf-1.0.0-SNAPSHOT.jar
 
 
    
