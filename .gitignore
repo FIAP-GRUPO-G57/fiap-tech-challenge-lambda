@@ -52,3 +52,12 @@ nb-configuration.xml
 *.terraform
 terraform.tfstate
 terraform.tfstate.backup
+.aws-sam/
+.event.json
+function.zip
+saml/
+template.yaml
+terraform/lambda/.terraform.lock.hcl
+.samignore
+event.json
+template.yml

@@ -16,7 +16,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "dynamodb:DeleteItem"
         ]
         Effect = "Allow"
-        Resource = "arn:aws:dynamodb:*:*:table/cliente"
+        Resource = "arn:aws:dynamodb:us-east-1:389985004788:table/cliente"
       },
       {
         Action = [

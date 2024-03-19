@@ -42,6 +42,7 @@
       <artifactId>aws-lambda-java-core</artifactId>
 
     </dependency>
+  
 
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -130,6 +131,19 @@
           </compilerArgs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version> <!-- Use a versão mais recente disponível -->
+        <executions>
+            <execution>
+                <phase>package</phase>
+                <goals>
+                    <goal>shade</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire-plugin.version}</version>

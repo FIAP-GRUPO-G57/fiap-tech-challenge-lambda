@@ -10,7 +10,6 @@ import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import java.util.HashMap;
 import java.util.Map;
-
 import jakarta.inject.Named;
 
 @Named("cpfVerification")
@@ -22,17 +21,24 @@ public class CPFVerificationLambda implements RequestHandler<APIGatewayProxyRequ
 
     @Override
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent event, Context context) {
+        System.out.println("Received event: " + event);
         String cpf = event.getQueryStringParameters().get("cpf");
 
+        System.out.println("cpf: " + cpf);
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("cpf", AttributeValue.builder().s(cpf).build());
 
+        System.out.println("key: " + key);
         GetItemRequest request = GetItemRequest.builder()
                 .tableName("cliente")
                 .key(key)
                 .build();
 
+        System.out.println("request: " + request);
+
         var result = dynamoDB.getItem(request);
+
+        System.out.println("result: " + result);
 
         if (result.item() == null || result.item().isEmpty()) {
 
@@ -44,6 +50,8 @@ public class CPFVerificationLambda implements RequestHandler<APIGatewayProxyRequ
         } else {
             // Here you should integrate with Amazon Cognito to retrieve an access token
             // This is a placeholder for where you would add that logic
+
+      
 
             APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
             response.setStatusCode(200);

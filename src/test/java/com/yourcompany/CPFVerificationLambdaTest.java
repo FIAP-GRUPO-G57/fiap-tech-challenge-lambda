@@ -30,12 +30,12 @@ public class CPFVerificationLambdaTest {
     @Test
     public void testCpfVerificationNotFound() {
         APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
-        event.setQueryStringParameters(Collections.singletonMap("cpf", "12345678900"));
+        event.setQueryStringParameters(Collections.singletonMap("cpf", "10345678900"));
 
 
 
         String result = String.valueOf(lambda.handleRequest(event, null)); // null for Context as we usually don't need it for simple tests
-        assertEquals("{statusCode: 404,body: CPF not found: 12345678900}", result); // Replace "Expected result" with the actual expected result
+        assertEquals("{statusCode: 404,body: CPF not found: 10345678900}", result); // Replace "Expected result" with the actual expected result
     }
 
 
