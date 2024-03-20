@@ -62,7 +62,7 @@ public class CPFVerificationLambda implements RequestHandler<APIGatewayProxyRequ
 
             APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
             response.setStatusCode(401);
-            response.setBody("CPF not found: " + cpf);
+            response.setBody("Unauthorized");
             return response;
 
         } else {

@@ -35,7 +35,7 @@ public class CPFVerificationLambdaTest {
 
 
         String result = String.valueOf(lambda.handleRequest(event, null)); // null for Context as we usually don't need it for simple tests
-        assertEquals("{statusCode: 401,body: CPF not found: 10345678900}", result); // Replace "Expected result" with the actual expected result
+        assertEquals("{statusCode: 401,body: Unauthorized}", result); // Replace "Expected result" with the actual expected result
     }
 
 
